@@ -102,7 +102,7 @@ $(document).ready(function () {
         $('#recentResults').empty();
     
         for (i=0; i < history.length; i++) {
-            $("#recentResults").append("<a href='#' class='list-group-item list-group-item-action' id='" + history[i] + "'>" + history[i] + "</a>");
+            $("#recentResults").append("<a href='#' class='list-group-item list-group-item-action' id='" + recent[i] + "'>" + recent[i] + "</a>");
         }
     };
     
