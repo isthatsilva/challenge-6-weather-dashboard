@@ -75,5 +75,48 @@ $(document).ready(function () {
         });
     
         lastCity = weatherData.name;
+        recentCity(weatherData.name);
     };
+
+    let recentCity = function (city) {
+        if (!recent.includes(city)) {
+            recent.push(city);
+    
+            $('#recentResults').append("<a href='#' class='list-group-item list-group-item-action' id='" + city + "'>" + city + "</a>");
+        }
+        localStorage.setItem('weatherSearchHistory', JSON.stringify(recent));
+        localStorage.setItem('lastCity', JSON.stringify(lastCity));
+        recentCityDisplay();
+    };
+    
+    
+    let recentCityDisplay = function() {
+        recent = JSON.parse(localStorage.getItem('weatherSearchHistory'));
+        lastCity = JSON.parse(localStorage.getItem('lastCity'));
+        if (!recent) {
+            recent = []
+        } if (!lastCity) {
+            lastCity = ""
+        }
+    
+        $('#recentResults').empty();
+    
+        for (i=0; i < history.length; i++) {
+            $("#recentResults").append("<a href='#' class='list-group-item list-group-item-action' id='" + history[i] + "'>" + history[i] + "</a>");
+        }
+    };
+    
+    recentCityDisplay();
+    
+    if (lastCity != "") {
+        getWeather(lastCity);
+    }
+    
+    $('#search-form').submit(submitHandler);
+    
+    // Allows user to click on a previously searched city to pull up its weather again
+    $('#recentResults').on('click', function(event) {
+        let previousCity = $(event.target).closest("a").attr("id");
+        getWeather(previousCity);
+    });
 })
